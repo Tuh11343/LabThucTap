@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My Application</string>
+
+    <array name="type_spinner">
+
+        <item> Test 1</item>
+        <item> Test 2</item>
+
+    </array>
+</resources>
