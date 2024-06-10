@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.network.lab1
 
 import android.util.Log
 import com.google.gson.GsonBuilder

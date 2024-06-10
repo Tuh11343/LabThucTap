@@ -1,11 +1,9 @@
-package com.example.myapplication
+package com.example.myapplication.views
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import com.example.myapplication.databinding.MenuLayoutBinding
-import com.example.myapplication.views.Lab1Activity
-import com.example.myapplication.views.Lab2Activity
 
 class MainActivity : ComponentActivity() {
 

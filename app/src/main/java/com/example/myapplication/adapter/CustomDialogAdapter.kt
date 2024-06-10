@@ -1,15 +1,10 @@
 package com.example.myapplication.adapter
 
-import android.R
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Item
 import com.example.myapplication.databinding.DialogItemBinding
+import com.example.myapplication.model.lab2.Product
 
 
 class CustomDialogAdapter(var productList: MutableList<Product>) :

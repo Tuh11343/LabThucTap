@@ -3,7 +3,7 @@ package com.example.myapplication.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Staff
+import com.example.myapplication.model.lab1.Staff
 import com.example.myapplication.databinding.StaffViewBinding
 
 class StaffAdapter(var staffList: MutableList<Staff>) :

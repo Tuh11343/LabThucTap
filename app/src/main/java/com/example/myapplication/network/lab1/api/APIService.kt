@@ -1,13 +1,11 @@
-package com.example.myapplication
+package com.example.myapplication.network.lab1.api
 
+import com.example.myapplication.model.lab1.RegisterRequest
 import com.example.myapplication.request.SearchRequest
 import com.google.gson.JsonElement
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.POST
-import retrofit2.http.Query
 
 interface APIService {
 

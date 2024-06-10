@@ -8,14 +8,16 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Item
+import com.example.myapplication.model.lab2.Item
 import com.example.myapplication.databinding.ItemViewBinding
+import com.example.myapplication.model.lab2.Product
+import com.example.myapplication.model.lab2.ProductType
 
 
-class ItemAdapter(var itemList: MutableList<Item>) :
+class ItemAdapter(var itemAdapterList:MutableList<Item>) :
     RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
-    var productChooseList= MutableList(itemList.size) { "" }
+    var productChooseList= MutableList(itemAdapterList.size) { "" }
 
     inner class ViewHolder(val binding: ItemViewBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -31,11 +33,11 @@ class ItemAdapter(var itemList: MutableList<Item>) :
     }
 
     override fun getItemCount(): Int {
-        return itemList.size
+        return itemAdapterList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = itemList[holder.absoluteAdapterPosition]
+        val item = itemAdapterList[holder.absoluteAdapterPosition]
         if (item != null) {
             holder.binding.index.text=holder.absoluteAdapterPosition.toString()
             val adapter = ArrayAdapter(
@@ -92,7 +94,7 @@ class ItemAdapter(var itemList: MutableList<Item>) :
     fun getValues():MutableList<Product> {
         var resultList=mutableListOf<Product>()
 
-        for((index, item) in itemList.withIndex()){
+        for((index, item) in itemAdapterList.withIndex()){
             var productType= mutableListOf<ProductType>()
             productType.add(ProductType(item.productTypeList[0].name,item.productTypeList[0].amount))
             productType.add(ProductType(item.productTypeList[1].name,item.productTypeList[1].amount))
@@ -106,9 +108,3 @@ class ItemAdapter(var itemList: MutableList<Item>) :
 
 
 }
-
-class ProductType(var name:String,var amount:Int){
-
-}
-
-class Product(var productName:String,var listProductType:MutableList<ProductType>)

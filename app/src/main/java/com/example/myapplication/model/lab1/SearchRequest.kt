@@ -1,4 +1,3 @@
-package com.example.myapplication.request
 
 data class SearchRequest(
     val contents: SearchContents

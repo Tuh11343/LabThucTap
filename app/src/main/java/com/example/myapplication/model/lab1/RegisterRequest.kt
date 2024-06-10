@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.model.lab1
 
 data class RegisterRequest(
     val contents: RegisterContents

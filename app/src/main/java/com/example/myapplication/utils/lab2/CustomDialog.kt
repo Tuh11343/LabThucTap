@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.utils.lab2
 
 import android.app.Dialog
 import android.content.Context

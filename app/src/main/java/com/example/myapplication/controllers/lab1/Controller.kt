@@ -1,8 +1,13 @@
-package com.example.myapplication
+package com.example.myapplication.controllers.lab1
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.model.lab1.RegisterContents
+import com.example.myapplication.model.lab1.RegisterRequest
+import com.example.myapplication.model.lab1.Staff
+import com.example.myapplication.network.lab1.RetrofitClient
+import com.example.myapplication.network.lab1.api.APIService
 import com.example.myapplication.request.SearchContents
 import com.example.myapplication.request.SearchRequest
 import com.google.gson.JsonElement
@@ -49,8 +54,8 @@ class Controller: ViewModel() {
         })
     }
 
-    fun registerDeviceApp(contents:RegisterContents){
-        val request=RegisterRequest(contents)
+    fun registerDeviceApp(contents: RegisterContents){
+        val request= RegisterRequest(contents)
         apiService.registerDeviceApp(request).enqueue(object : Callback<JsonElement> {
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 if (response.isSuccessful) {

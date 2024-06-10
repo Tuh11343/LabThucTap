@@ -3,8 +3,10 @@
 
     <array name="type_spinner">
 
-        <item> Test 1</item>
-        <item> Test 2</item>
+        <item>Test 1</item>
+        <item>Test 2</item>
 
     </array>
+    <string name="title_activity_lab2">Lab2_Activity</string>
+    <string name="title_activity_lab1">Lab1Activity</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.model.lab1
 
 import com.google.gson.Gson
 import com.google.gson.JsonArray

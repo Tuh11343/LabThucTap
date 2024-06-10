@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.model.lab2
 
 import com.example.myapplication.model.lab2.ProductType
 
