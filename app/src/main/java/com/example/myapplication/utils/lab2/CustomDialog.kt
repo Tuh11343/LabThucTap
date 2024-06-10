@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.myapplication.adapter.CustomDialogAdapter
-import com.example.myapplication.adapter.Product
 import com.example.myapplication.databinding.CustomDialogBinding
+import com.example.myapplication.model.lab2.Product
 
 class CustomDialog(context: Context, var productList:MutableList<Product>) : Dialog(context) {
 
