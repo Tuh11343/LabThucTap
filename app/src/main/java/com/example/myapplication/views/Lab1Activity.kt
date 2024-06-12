@@ -1,5 +1,6 @@
 package com.example.myapplication.views
 
+import SearchContents
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -9,7 +10,6 @@ import com.example.myapplication.model.lab1.RegisterContents
 import com.example.myapplication.network.lab1.RetrofitClient
 import com.example.myapplication.adapter.StaffAdapter
 import com.example.myapplication.databinding.Lab1LayoutBinding
-import com.example.myapplication.request.SearchContents
 
 class Lab1Activity : ComponentActivity() {
 

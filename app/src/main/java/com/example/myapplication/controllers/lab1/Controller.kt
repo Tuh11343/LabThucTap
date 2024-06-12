@@ -1,5 +1,7 @@
 package com.example.myapplication.controllers.lab1
 
+import SearchContents
+import SearchRequest
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,8 +10,6 @@ import com.example.myapplication.model.lab1.RegisterRequest
 import com.example.myapplication.model.lab1.Staff
 import com.example.myapplication.network.lab1.RetrofitClient
 import com.example.myapplication.network.lab1.api.APIService
-import com.example.myapplication.request.SearchContents
-import com.example.myapplication.request.SearchRequest
 import com.google.gson.JsonElement
 import retrofit2.Call
 import retrofit2.Callback
