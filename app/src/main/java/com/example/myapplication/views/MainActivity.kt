@@ -23,7 +23,9 @@ class MainActivity : ComponentActivity() {
             startActivity(Intent(this,Lab2Activity::class.java))
         }
 
-
+        binding.btnLab3.setOnClickListener{
+            startActivity(Intent(this,Lab3Activity::class.java))
+        }
     }
 
 
