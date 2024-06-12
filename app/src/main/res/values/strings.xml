@@ -10,5 +10,7 @@
     <string name="title_activity_lab2">Lab2_Activity</string>
     <string name="title_activity_lab1">Lab1Activity</string>
     <string name="title_activity_lab3">Lab3Activity</string>
+    <string name="title_activity_lab4">Lab4Activity</string>
+
 
 </resources>
