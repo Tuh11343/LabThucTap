@@ -41,21 +41,8 @@ class Lab3Activity : ComponentActivity() {
             ProductType("Type 3", 0)
         )
 
-        val productTypeList2 = mutableListOf(
-            ProductType("Type 1", 0),
-            ProductType("Type 2", 0),
-            ProductType("Type 3", 0)
-        )
-
-        val productTypeList3 = mutableListOf(
-            ProductType("Type 1", 0),
-            ProductType("Type 2", 0),
-            ProductType("Type 3", 0)
-        )
 
         itemAdapterList.add(Item(productList, productTypeList1))
-        itemAdapterList.add(Item(productList, productTypeList2))
-        itemAdapterList.add(Item(productList, productTypeList3))
 
         adapter = Lab3ItemAdapter(itemAdapterList,object:Lab3Listener{
             override fun add() {
