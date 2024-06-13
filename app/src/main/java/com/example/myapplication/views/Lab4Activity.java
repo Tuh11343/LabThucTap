@@ -19,14 +19,15 @@ import com.example.myapplication.utils.lab2.CustomDialog;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Lab4Activity extends ComponentActivity {
 
     private Lab2LayoutBinding binding;
     private Lab4ItemAdapter adapter;
 
-    private List<String> productList = Arrays.asList("Mango", "Strawberry", "Avocado");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,11 +47,13 @@ public class Lab4Activity extends ComponentActivity {
                 new ProductType("Type 3", 0)
         );
 
-        itemAdapterList.add(new Item(productList, productTypeList));
+        List<String> productList1 = Arrays.asList("Mango", "Strawberry", "Avocado");
+        itemAdapterList.add(new Item(productList1, productTypeList));
 
         adapter = new Lab4ItemAdapter(itemAdapterList, new Lab4Listener() {
             @Override
             public void add() {
+                List<String> productList = Arrays.asList("Mango", "Strawberry", "Avocado");
                 List<ProductType> productTypeList = new ArrayList<>();
                 Collections.addAll(productTypeList,
                         new ProductType("Type 1", 0),
@@ -69,7 +72,6 @@ public class Lab4Activity extends ComponentActivity {
 
         binding.btnConfirm.setOnClickListener(view -> {
             List<Product> productList = adapter.getValues();
-            Log.i("DEBUG", "Size:" + productList.size());
             if (hasDuplicateProductName(productList)){
                 Toast.makeText(Lab4Activity.this, "San pham bi trung vui long nhap lai", Toast.LENGTH_SHORT).show();
             }else if(productHasEmptyAmount(productList)){
@@ -83,8 +85,8 @@ public class Lab4Activity extends ComponentActivity {
 
     }
 
-    private boolean hasDuplicateProductName(List<Product> productList) {
-        List<String> seenNames = new ArrayList<>();
+    public boolean hasDuplicateProductName(List<Product> productList) {
+        Set<String> seenNames = new HashSet<>();
         for (Product product : productList) {
             if (!seenNames.add(product.getProductName())) {
                 return true;

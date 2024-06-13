@@ -17,7 +17,6 @@ import com.example.myapplication.model.lab2.ProductType
 class Lab3Activity : ComponentActivity() {
 
     private lateinit var binding: Lab2LayoutBinding
-    private var productList = mutableListOf("Mango", "Strawberry", "Avocado")
     private lateinit var adapter:Lab3ItemAdapter
 
 
@@ -41,23 +40,22 @@ class Lab3Activity : ComponentActivity() {
             ProductType("Type 3", 0)
         )
 
-
-        itemAdapterList.add(Item(productList, productTypeList1))
+        var productList1 = mutableListOf("Mango", "Strawberry", "Avocado")
+        itemAdapterList.add(Item(productList1, productTypeList1))
 
         adapter = Lab3ItemAdapter(itemAdapterList,object:Lab3Listener{
             override fun add() {
+                var productList = mutableListOf("Mango", "Strawberry", "Avocado")
                 val productTypeList = mutableListOf(
                     ProductType("Type 1", 0),
                     ProductType("Type 2", 0),
                     ProductType("Type 3", 0)
                 )
                 adapter.add(Item(productList,productTypeList))
-                Toast.makeText(this@Lab3Activity,"Thêm thành công",Toast.LENGTH_SHORT).show()
             }
 
             override fun delete(item:Item) {
                 adapter.delete(item)
-                Toast.makeText(this@Lab3Activity,"Xóa thành công",Toast.LENGTH_SHORT).show()
             }
 
         })
