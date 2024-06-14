@@ -2,6 +2,7 @@ package com.example.myapplication.adapter.lab4;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.R;
 import com.example.myapplication.databinding.ItemView3Binding;
 import com.example.myapplication.model.lab2.Item;
 import com.example.myapplication.model.lab2.Product;
@@ -58,7 +60,7 @@ public class Lab4ItemAdapter extends RecyclerView.Adapter<Lab4ItemAdapter.ViewHo
 
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     holder.itemView.getContext(),
-                    android.R.layout.simple_spinner_item,
+                    R.layout.spinner_text,
                     item.getProductList()
             );
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

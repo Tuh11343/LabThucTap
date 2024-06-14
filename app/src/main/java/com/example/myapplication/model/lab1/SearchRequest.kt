@@ -1,4 +1,7 @@
 
+package com.example.myapplication.model.lab1
+
+
 data class SearchRequest(
     val contents: SearchContents
 )

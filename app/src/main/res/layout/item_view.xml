@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center_vertical"
+        android:layout_weight="1"
         >
 
         <TextView
@@ -24,11 +25,6 @@
             android:maxLines="1"
             android:ellipsize="end"
             />
-
-        <!--    <View-->
-        <!--        android:layout_width="5dp"-->
-        <!--        android:layout_height="fill_parent"-->
-        <!--        android:background="@android:color/black" />-->
 
         <Spinner
             android:id="@+id/spinnerProduct"

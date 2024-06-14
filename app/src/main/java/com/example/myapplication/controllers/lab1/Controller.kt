@@ -1,12 +1,12 @@
 package com.example.myapplication.controllers.lab1
 
-import SearchContents
-import SearchRequest
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.model.lab1.RegisterContents
 import com.example.myapplication.model.lab1.RegisterRequest
+import com.example.myapplication.model.lab1.SearchContents
+import com.example.myapplication.model.lab1.SearchRequest
 import com.example.myapplication.model.lab1.Staff
 import com.example.myapplication.network.lab1.RetrofitClient
 import com.example.myapplication.network.lab1.api.APIService
@@ -23,8 +23,8 @@ class Controller: ViewModel() {
 
     val apiService: APIService = RetrofitClient.get()!!.create(APIService::class.java)
 
-    fun search(contents:SearchContents){
-        val request=SearchRequest(contents)
+    fun search(contents: SearchContents){
+        val request= SearchRequest(contents)
         apiService.search(request).enqueue(object : Callback<JsonElement> {
             override fun onResponse(call: Call<JsonElement>, response: Response<JsonElement>) {
                 Log.i("DEBUG","Json:${response.body()}")

@@ -1,19 +1,24 @@
 package com.example.myapplication.views;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 
 import com.example.myapplication.adapter.lab4.Lab4ItemAdapter;
 import com.example.myapplication.adapter.lab4.Lab4Listener;
+import com.example.myapplication.controllers.lab1.Controller;
 import com.example.myapplication.databinding.Lab2LayoutBinding;
+import com.example.myapplication.model.lab1.RegisterContents;
+import com.example.myapplication.model.lab1.SearchContents;
+import com.example.myapplication.model.lab1.Staff;
 import com.example.myapplication.model.lab2.Item;
 import com.example.myapplication.model.lab2.Product;
 import com.example.myapplication.model.lab2.ProductType;
+import com.example.myapplication.network.lab1.RetrofitClient;
 import com.example.myapplication.utils.lab2.CustomDialog;
 
 import java.util.ArrayList;
@@ -22,11 +27,15 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Lab4Activity extends ComponentActivity {
 
     private Lab2LayoutBinding binding;
+
     private Lab4ItemAdapter adapter;
+
+    private Controller mViewModel;
 
 
     @Override
@@ -36,31 +45,77 @@ public class Lab4Activity extends ComponentActivity {
         binding = Lab2LayoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //Khởi tạo viewmodel
+        mViewModel = new ViewModelProvider(this).get(Controller.class);
+
+        //Đăng ký branch
+        RetrofitClient.Companion.setBranch("1");
+
+        if(mViewModel.getDataToken()!=null){
+            //Call API đăng ký thiết bị
+            mViewModel.registerDeviceApp(new RegisterContents(
+                    "nvtest@tmmn",
+                    "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+                    "22184a05bdd68cb1",
+                    "123456",
+                    "1.5.7",
+                    "tuanDevice"));
+        }
+
+
+        //Kiểm tra xem dữ liệu sau khi call api có hoạt động không
+        observeDataToken();
+
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        List<Item> itemAdapterList = new ArrayList<>();
-        List<ProductType> productTypeList = new ArrayList<>();
+        observeStaffList();
+    }
 
-        Collections.addAll(productTypeList,
-                new ProductType("Type 1", 0),
-                new ProductType("Type 2", 0),
-                new ProductType("Type 3", 0)
-        );
+    private void observeDataToken() {
+        mViewModel.getDataToken().observe(this,data->{
+            if (mViewModel.getDataToken().getValue() != null) {
 
-        List<String> productList1 = Arrays.asList("Mango", "Strawberry", "Avocado");
-        itemAdapterList.add(new Item(productList1, productTypeList));
+                //Set token cho client
+                RetrofitClient.Companion.setAuthToken(data);
+                SearchContents searchContents = new SearchContents(-1, mViewModel.getDataUserID().getValue());
+                mViewModel.search(searchContents);
+            }
+        });
+    }
 
+    private void btnConfirmHandle() {
+        binding.btnConfirm.setOnClickListener(view -> {
+            List<Product> productList = adapter.getValues();
+            if (hasDuplicateProductName(productList)) {
+                Toast.makeText(Lab4Activity.this, "San pham bi trung vui long nhap lai", Toast.LENGTH_SHORT).show();
+            } else if (productHasEmptyAmount(productList)) {
+                Toast.makeText(Lab4Activity.this, "Khong duoc de trong gia tri", Toast.LENGTH_SHORT).show();
+            } else {
+                CustomDialog dialog = new CustomDialog(Lab4Activity.this, productList);
+                dialog.show();
+            }
+
+        });
+    }
+
+    private void setUpAdapter(List<Item> itemAdapterList,List<Staff> staffList) {
         adapter = new Lab4ItemAdapter(itemAdapterList, new Lab4Listener() {
             @Override
             public void add() {
-                List<String> productList = Arrays.asList("Mango", "Strawberry", "Avocado");
+
                 List<ProductType> productTypeList = new ArrayList<>();
                 Collections.addAll(productTypeList,
                         new ProductType("Type 1", 0),
                         new ProductType("Type 2", 0),
                         new ProductType("Type 3", 0)
                 );
-                adapter.add(new Item(productList, productTypeList));
+
+                List<String> productList1;
+                productList1 = staffList.stream()
+                        .map(Staff::getName)
+                        .collect(Collectors.toCollection(ArrayList::new));
+
+                adapter.add(new Item(productList1, productTypeList));
             }
 
             @Override
@@ -69,20 +124,6 @@ public class Lab4Activity extends ComponentActivity {
             }
         });
         binding.recyclerView.setAdapter(adapter);
-
-        binding.btnConfirm.setOnClickListener(view -> {
-            List<Product> productList = adapter.getValues();
-            if (hasDuplicateProductName(productList)){
-                Toast.makeText(Lab4Activity.this, "San pham bi trung vui long nhap lai", Toast.LENGTH_SHORT).show();
-            }else if(productHasEmptyAmount(productList)){
-            Toast.makeText(Lab4Activity.this, "Khong duoc de trong gia tri", Toast.LENGTH_SHORT).show();
-            }else{
-                CustomDialog dialog= new CustomDialog(Lab4Activity.this,productList);
-                dialog.show();
-            }
-
-        });
-
     }
 
     public boolean hasDuplicateProductName(List<Product> productList) {
@@ -104,6 +145,39 @@ public class Lab4Activity extends ComponentActivity {
             }
         }
         return false;
+    }
+
+
+    //Hàm này dùng để quan sát giá trị danh sách nhân viên có dữ liệu thay đổi để cập nhật UI
+    private void observeStaffList(){
+        mViewModel.getDataStaffList().observe(this,staffList->{
+            if(staffList.isEmpty()){
+                Toast.makeText(Lab4Activity.this, "Không tìm thấy dữ liệu staff list", Toast.LENGTH_SHORT).show();
+            }else{
+
+                //Tiến hành đổ dữ liệu vào spinner
+                List<Item> itemAdapterList = new ArrayList<>();
+
+                List<ProductType> productTypeList = new ArrayList<>();
+                Collections.addAll(productTypeList,
+                        new ProductType("Type 1", 0),
+                        new ProductType("Type 2", 0),
+                        new ProductType("Type 3", 0)
+                );
+
+                //Gán dữ liệu vào danh sách sản phẩm
+                List<String> productList1;
+                productList1 = staffList.stream()
+                        .map(Staff::getName)
+                        .collect(Collectors.toCollection(ArrayList::new));
+                itemAdapterList.add(new Item(productList1, productTypeList));
+
+                setUpAdapter(itemAdapterList,staffList);
+
+                btnConfirmHandle();
+
+            }
+        });
     }
 
 }

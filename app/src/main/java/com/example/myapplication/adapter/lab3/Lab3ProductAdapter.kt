@@ -82,6 +82,10 @@ class Lab3ItemAdapter(var itemAdapterList: MutableList<Item>, var mListener: Lab
             holder.binding.inputNumber3.tag = textWatcher3
 
             //Gán giá trị cho product spinner
+
+            //Gán giá trị cho product spinner
+            Log.i("DEBUG", "So luong product choose list:" + productChooseList.size)
+            Log.i("DEBUG", "Item index:" + holder.bindingAdapterPosition)
             if (productChooseList[holder.bindingAdapterPosition] != null) {
                 holder.binding.spinnerProduct.setSelection(
                     item.productList.indexOf(
