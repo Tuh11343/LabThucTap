@@ -72,12 +72,14 @@ public class Lab4Activity extends ComponentActivity {
     }
 
     private void observeDataToken() {
-        mViewModel.getDataToken().observe(this,data->{
+        mViewModel.getCombinedData().observe(this,data->{
             if (mViewModel.getDataToken().getValue() != null) {
 
                 //Set token cho client
-                RetrofitClient.Companion.setAuthToken(data);
-                SearchContents searchContents = new SearchContents(-1, mViewModel.getDataUserID().getValue());
+                RetrofitClient.Companion.setAuthToken(data.getFirst());
+
+                //Tiến hành call api để lấy dữ liệu danh sách nhân viên
+                SearchContents searchContents = new SearchContents(-1, data.getSecond());
                 mViewModel.search(searchContents);
             }
         });

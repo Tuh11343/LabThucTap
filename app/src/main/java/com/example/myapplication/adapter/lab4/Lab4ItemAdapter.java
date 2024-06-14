@@ -58,6 +58,7 @@ public class Lab4ItemAdapter extends RecyclerView.Adapter<Lab4ItemAdapter.ViewHo
         if (item != null) {
             holder.binding.index.setText(String.valueOf(holder.getBindingAdapterPosition()));
 
+            //Khởi tạo adapter cho spinner
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     holder.itemView.getContext(),
                     R.layout.spinner_text,

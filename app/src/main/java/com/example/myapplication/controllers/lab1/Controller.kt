@@ -1,6 +1,7 @@
 package com.example.myapplication.controllers.lab1
 
 import android.util.Log
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.model.lab1.RegisterContents
@@ -22,6 +23,21 @@ class Controller: ViewModel() {
     var dataStaffList=MutableLiveData<MutableList<Staff>>()
 
     val apiService: APIService = RetrofitClient.get()!!.create(APIService::class.java)
+
+    val combinedData = MediatorLiveData<Pair<String?, Int?>>().apply {
+        addSource(dataToken) { token ->
+            val userID = dataUserID.value
+            if (userID != null) {
+                value = Pair(token, userID)
+            }
+        }
+        addSource(dataUserID) { userID ->
+            val token = dataToken.value
+            if (token != null) {
+                value = Pair(token, userID)
+            }
+        }
+    }
 
     fun search(contents: SearchContents){
         val request= SearchRequest(contents)
