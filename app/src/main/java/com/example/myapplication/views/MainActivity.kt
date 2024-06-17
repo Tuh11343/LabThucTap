@@ -30,6 +30,10 @@ class MainActivity : ComponentActivity() {
         binding.btnLab4.setOnClickListener{
             startActivity(Intent(this,Lab4Activity::class.java))
         }
+
+        binding.btnLab5.setOnClickListener{
+            startActivity(Intent(this,Lab5Activity::class.java))
+        }
     }
 
 

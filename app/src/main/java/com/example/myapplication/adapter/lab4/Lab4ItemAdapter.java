@@ -25,12 +25,12 @@ import java.util.List;
 public class Lab4ItemAdapter extends RecyclerView.Adapter<Lab4ItemAdapter.ViewHolder> {
 
     private List<Item> itemAdapterList;
-    private List<String> productChooseList;
+    private List<String> productChooseList;//Biến này dùng để giữ giá trị của product đang được chọn trong spinner
     private Lab4Listener mListener;
 
     public Lab4ItemAdapter(List<Item> itemAdapterList, Lab4Listener listener) {
         this.itemAdapterList = itemAdapterList;
-        this.productChooseList = new ArrayList<>(Collections.nCopies(itemAdapterList.size(),""));
+        this.productChooseList = new ArrayList<>(Collections.nCopies(itemAdapterList.size(), ""));
         this.mListener = listener;
     }
 
@@ -72,7 +72,7 @@ public class Lab4ItemAdapter extends RecyclerView.Adapter<Lab4ItemAdapter.ViewHo
             holder.binding.productType2.setText(item.getProductTypeList().get(1).getName());
             holder.binding.productType3.setText(item.getProductTypeList().get(2).getName());
 
-            //Loại bỏ text watcher tránh trường hợp lỗi phát sinh
+            //Loại bỏ call back của edit text tránh trường hợp lỗi phát sinh
             holder.binding.inputNumber1.removeTextChangedListener((TextWatcher) holder.binding.inputNumber1.getTag());
             holder.binding.inputNumber2.removeTextChangedListener((TextWatcher) holder.binding.inputNumber2.getTag());
             holder.binding.inputNumber3.removeTextChangedListener((TextWatcher) holder.binding.inputNumber3.getTag());
@@ -82,7 +82,7 @@ public class Lab4ItemAdapter extends RecyclerView.Adapter<Lab4ItemAdapter.ViewHo
             holder.binding.inputNumber2.setText(String.valueOf(item.getProductTypeList().get(1).getAmount()));
             holder.binding.inputNumber3.setText(String.valueOf(item.getProductTypeList().get(2).getAmount()));
 
-            //Thêm text watcher
+            //Thêm call back cho edit text
             TextWatcher textWatcher1 = new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -173,11 +173,14 @@ public class Lab4ItemAdapter extends RecyclerView.Adapter<Lab4ItemAdapter.ViewHo
         return itemAdapterList.size();
     }
 
+    //Hàm này dùng để lấy danh sách sản phẩm
     public List<Product> getValues() {
         List<Product> resultList = new ArrayList<>();
 
         for (int index = 0; index < itemAdapterList.size(); index++) {
             List<ProductType> productType = new ArrayList<>();
+
+            //Khởi tạo danh sách loại sản phẩm
             productType.add(new ProductType(itemAdapterList.get(index).getProductTypeList().get(0).getName(),
                     itemAdapterList.get(index).getProductTypeList().get(0).getAmount()));
             productType.add(new ProductType(itemAdapterList.get(index).getProductTypeList().get(1).getName(),

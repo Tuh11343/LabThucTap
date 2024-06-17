@@ -35,6 +35,11 @@
             android:label="@string/title_activity_lab4"
             android:theme="@style/Theme.MyApplication" />
         <activity
+            android:name=".views.Lab5Activity"
+            android:exported="false"
+            android:label="@string/title_activity_lab4"
+            android:theme="@style/Theme.MyApplication" />
+        <activity
             android:name=".views.MainActivity"
             android:exported="true"
             android:label="@string/app_name"

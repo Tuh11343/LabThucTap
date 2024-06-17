@@ -20,6 +20,7 @@ import com.example.myapplication.model.lab2.Product;
 import com.example.myapplication.model.lab2.ProductType;
 import com.example.myapplication.network.lab1.RetrofitClient;
 import com.example.myapplication.utils.lab2.CustomDialog;
+import com.example.myapplication.utils.lab2.CustomDialogJava;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,9 +60,8 @@ public class Lab4Activity extends ComponentActivity {
                     "22184a05bdd68cb1",
                     "123456",
                     "1.5.7",
-                    "tuanDevice"));
+                    "tuhDevice"));
         }
-
 
         //Kiểm tra xem dữ liệu sau khi call api có hoạt động không
         observeDataToken();
@@ -71,6 +71,7 @@ public class Lab4Activity extends ComponentActivity {
         observeStaffList();
     }
 
+    //Hàm này dùng để quan sát giá trị của token và userID có lấy được hay chưa
     private void observeDataToken() {
         mViewModel.getCombinedData().observe(this,data->{
             if (mViewModel.getDataToken().getValue() != null) {
@@ -87,13 +88,16 @@ public class Lab4Activity extends ComponentActivity {
 
     private void btnConfirmHandle() {
         binding.btnConfirm.setOnClickListener(view -> {
+
+            //Lấy danh sách sản phẩm từ dapter
             List<Product> productList = adapter.getValues();
+
             if (hasDuplicateProductName(productList)) {
                 Toast.makeText(Lab4Activity.this, "San pham bi trung vui long nhap lai", Toast.LENGTH_SHORT).show();
             } else if (productHasEmptyAmount(productList)) {
                 Toast.makeText(Lab4Activity.this, "Khong duoc de trong gia tri", Toast.LENGTH_SHORT).show();
             } else {
-                CustomDialog dialog = new CustomDialog(Lab4Activity.this, productList);
+                CustomDialogJava dialog = new CustomDialogJava(Lab4Activity.this, productList);
                 dialog.show();
             }
 
@@ -102,6 +106,8 @@ public class Lab4Activity extends ComponentActivity {
 
     private void setUpAdapter(List<Item> itemAdapterList,List<Staff> staffList) {
         adapter = new Lab4ItemAdapter(itemAdapterList, new Lab4Listener() {
+
+            //Hàm này dùng để xử lý khi thêm sản phẩm
             @Override
             public void add() {
 
@@ -120,6 +126,7 @@ public class Lab4Activity extends ComponentActivity {
                 adapter.add(new Item(productList1, productTypeList));
             }
 
+            //Hàm này dùng để xử lý khi xóa sản phẩm
             @Override
             public void delete(Item item) {
                 adapter.delete(item);
@@ -174,8 +181,10 @@ public class Lab4Activity extends ComponentActivity {
                         .collect(Collectors.toCollection(ArrayList::new));
                 itemAdapterList.add(new Item(productList1, productTypeList));
 
+                //Tạo adapter cho recyclerView khi đã có dữ liệu
                 setUpAdapter(itemAdapterList,staffList);
 
+                //Tạo dialog
                 btnConfirmHandle();
 
             }

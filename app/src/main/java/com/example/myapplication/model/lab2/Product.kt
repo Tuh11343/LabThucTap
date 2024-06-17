@@ -1,4 +1,8 @@
 package com.example.myapplication.model.lab2
 
 
-class Product(var productName:String,var listProductType:MutableList<ProductType>)
+class Product(var productName:String,var listProductType:MutableList<ProductType>){
+
+    constructor():this("",mutableListOf())
+
+}
