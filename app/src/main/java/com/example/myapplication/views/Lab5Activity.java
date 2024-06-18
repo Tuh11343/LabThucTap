@@ -210,8 +210,14 @@ public class Lab5Activity extends ComponentActivity {
                         if (count == 0) {
                             for (Good good : goodList) {
                                 goodsDAO.add(good);//Thêm vào database
+                            }
+
+                            //Lấy dữ liệu từ database
+                            List<Good> goodListDatabase=goodsDAO.findAll();
+                            for(Good good :goodListDatabase){
                                 goodListString.add("ID:" + good.getId() + " Tên:" + good.getName() + " Giá:" + good.getPrice());//Dùng để chuyển good về string đưa lên view
                             }
+
                             handler.post(() -> {
                                 Toast.makeText(this, "Thêm dữ liệu sản phẩm vào database thành công", Toast.LENGTH_SHORT).show();
                                 ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, goodListString);
@@ -221,6 +227,11 @@ public class Lab5Activity extends ComponentActivity {
 
                             for (Good good : goodList) {
                                 goodsDAO.update(good);//Cập nhật dữ liệu
+                            }
+
+                            //Lấy dữ liệu từ database
+                            List<Good> goodListDatabase=goodsDAO.findAll();
+                            for(Good good :goodListDatabase){
                                 goodListString.add("ID:" + good.getId() + " Tên:" + good.getName() + " Giá:" + good.getPrice());//Dùng để chuyển good về string đưa lên view
                             }
 
