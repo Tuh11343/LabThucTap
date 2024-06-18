@@ -1,6 +1,7 @@
 package com.example.myapplication.views;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
@@ -52,10 +53,10 @@ public class Lab4Activity extends ComponentActivity {
         //Đăng ký branch
         RetrofitClient.Companion.setBranch("1");
 
-        if(mViewModel.getDataToken()!=null){
+        if (mViewModel.getDataToken() != null) {
             //Call API đăng ký thiết bị
             mViewModel.registerDeviceApp(new RegisterContents(
-                    "nvtest@tmmn",
+                    "test2@tmmn",
                     "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
                     "22184a05bdd68cb1",
                     "123456",
@@ -73,14 +74,14 @@ public class Lab4Activity extends ComponentActivity {
 
     //Hàm này dùng để quan sát giá trị của token và userID có lấy được hay chưa
     private void observeDataToken() {
-        mViewModel.getCombinedData().observe(this,data->{
+        mViewModel.getCombinedData().observe(this, data -> {
             if (mViewModel.getDataToken().getValue() != null) {
 
                 //Set token cho client
                 RetrofitClient.Companion.setAuthToken(data.getFirst());
 
                 //Tiến hành call api để lấy dữ liệu danh sách nhân viên
-                SearchContents searchContents = new SearchContents(-1, data.getSecond());
+                SearchContents searchContents = new SearchContents(-1, 755);
                 mViewModel.search(searchContents);
             }
         });
@@ -92,19 +93,20 @@ public class Lab4Activity extends ComponentActivity {
             //Lấy danh sách sản phẩm từ dapter
             List<Product> productList = adapter.getValues();
 
-            if (hasDuplicateProductName(productList)) {
+            /*if (hasDuplicateProductName(productList)) {
                 Toast.makeText(Lab4Activity.this, "San pham bi trung vui long nhap lai", Toast.LENGTH_SHORT).show();
             } else if (productHasEmptyAmount(productList)) {
                 Toast.makeText(Lab4Activity.this, "Khong duoc de trong gia tri", Toast.LENGTH_SHORT).show();
             } else {
                 CustomDialogJava dialog = new CustomDialogJava(Lab4Activity.this, productList);
                 dialog.show();
-            }
-
+            }*/
+            CustomDialogJava dialog = new CustomDialogJava(Lab4Activity.this, productList);
+            dialog.show();
         });
     }
 
-    private void setUpAdapter(List<Item> itemAdapterList,List<Staff> staffList) {
+    private void setUpAdapter(List<Item> itemAdapterList, List<Staff> staffList) {
         adapter = new Lab4ItemAdapter(itemAdapterList, new Lab4Listener() {
 
             //Hàm này dùng để xử lý khi thêm sản phẩm
@@ -158,35 +160,39 @@ public class Lab4Activity extends ComponentActivity {
 
 
     //Hàm này dùng để quan sát giá trị danh sách nhân viên có dữ liệu thay đổi để cập nhật UI
-    private void observeStaffList(){
-        mViewModel.getDataStaffList().observe(this,staffList->{
-            if(staffList.isEmpty()){
-                Toast.makeText(Lab4Activity.this, "Không tìm thấy dữ liệu staff list", Toast.LENGTH_SHORT).show();
-            }else{
+    private void observeStaffList() {
+        mViewModel.getDataStaffList().observe(this, staffList -> {
+            try {
+                if (staffList.isEmpty()) {
+                    Toast.makeText(Lab4Activity.this, "Không tìm thấy dữ liệu staff list", Toast.LENGTH_SHORT).show();
+                } else {
 
-                //Tiến hành đổ dữ liệu vào spinner
-                List<Item> itemAdapterList = new ArrayList<>();
+                    //Tiến hành đổ dữ liệu vào spinner
+                    List<Item> itemAdapterList = new ArrayList<>();
 
-                List<ProductType> productTypeList = new ArrayList<>();
-                Collections.addAll(productTypeList,
-                        new ProductType("Type 1", 0),
-                        new ProductType("Type 2", 0),
-                        new ProductType("Type 3", 0)
-                );
+                    List<ProductType> productTypeList = new ArrayList<>();
+                    Collections.addAll(productTypeList,
+                            new ProductType("Type 1", 0),
+                            new ProductType("Type 2", 0),
+                            new ProductType("Type 3", 0)
+                    );
 
-                //Gán dữ liệu vào danh sách sản phẩm
-                List<String> productList1;
-                productList1 = staffList.stream()
-                        .map(Staff::getName)
-                        .collect(Collectors.toCollection(ArrayList::new));
-                itemAdapterList.add(new Item(productList1, productTypeList));
+                    //Gán dữ liệu vào danh sách sản phẩm
+                    List<String> productList1;
+                    productList1 = staffList.stream()
+                            .map(Staff::getName)
+                            .collect(Collectors.toCollection(ArrayList::new));
+                    itemAdapterList.add(new Item(productList1, productTypeList));
 
-                //Tạo adapter cho recyclerView khi đã có dữ liệu
-                setUpAdapter(itemAdapterList,staffList);
+                    //Tạo adapter cho recyclerView khi đã có dữ liệu
+                    setUpAdapter(itemAdapterList, staffList);
 
-                //Tạo dialog
-                btnConfirmHandle();
+                    //Tạo dialog
+                    btnConfirmHandle();
 
+                }
+            } catch (Exception er) {
+                Log.i("DEBUG", "Error from observe staff list:" + er);
             }
         });
     }

@@ -82,6 +82,7 @@ public class Lab5Activity extends ComponentActivity {
 
         btnCallHandle();
         btnDeleteHandle();
+        btnLoadHandle();
 
     }
 
@@ -92,9 +93,6 @@ public class Lab5Activity extends ComponentActivity {
 
                 //Set token cho client
                 RetrofitClient.Companion.setAuthToken(data.first);
-
-                //Tiến hành call api để lấy dữ liệu danh sách sản phẩm
-                mViewModel.getGoods();
             }
         });
     }
@@ -105,32 +103,38 @@ public class Lab5Activity extends ComponentActivity {
 
             //Call api lấy danh sách sản phẩm
             mViewModel.getGoods();
-
         });
     }
 
     //Hàm dùng để xóa dữ liệu sản phẩm khỏi database và cập nhật UI
-    private void btnDeleteHandle(){
+    private void btnDeleteHandle() {
         binding.btnDelete.setOnClickListener(view -> {
             ExecutorService executorService = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(getMainLooper());
             executorService.execute(() -> {
-                goodsDAO.deleteAll();
-                int count=goodsDAO.getCount();
+                int count = goodsDAO.getCount();
+                if (count == 0) {
+                    handler.post(() -> {
+                        Toast.makeText(this, "Database trống", Toast.LENGTH_SHORT).show();
+                    });
+                } else {
+                    goodsDAO.deleteAll();
+                    int countDeleted = goodsDAO.getCount();
 
-                handler.post(() -> {
-                    //Xóa thành công
-                    if(count==0){
-                        Toast.makeText(this, "Xóa sản phẩm khỏi database thành công", Toast.LENGTH_SHORT).show();
+                    handler.post(() -> {
+                        //Xóa thành công
+                        if (countDeleted == 0) {
+                            Toast.makeText(this, "Xóa sản phẩm khỏi database thành công", Toast.LENGTH_SHORT).show();
 
-                        //Tiến hành cập nhật lại UI set empty cho list
-                        List<String> emptyList = new ArrayList<>();
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, emptyList);
-                        binding.goodsList.setAdapter(adapter);
-                    }else{
-                        Log.i("DEBUG","Error from delete good handle");
-                    }
-                });
+                            //Tiến hành cập nhật lại UI set empty cho list
+                            List<String> emptyList = new ArrayList<>();
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, emptyList);
+                            binding.goodsList.setAdapter(adapter);
+                        } else {
+                            Log.i("DEBUG", "Error from delete good handle");
+                        }
+                    });
+                }
             });
         });
     }
@@ -204,7 +208,6 @@ public class Lab5Activity extends ComponentActivity {
                 executorService.execute(() -> {
                     try {
                         int count = goodsDAO.getCount();
-                        List<String> goodListString = new ArrayList<>();
 
                         //Không có dữ liệu trong database tiến hành insert data
                         if (count == 0) {
@@ -212,16 +215,8 @@ public class Lab5Activity extends ComponentActivity {
                                 goodsDAO.add(good);//Thêm vào database
                             }
 
-                            //Lấy dữ liệu từ database
-                            List<Good> goodListDatabase=goodsDAO.findAll();
-                            for(Good good :goodListDatabase){
-                                goodListString.add("ID:" + good.getId() + " Tên:" + good.getName() + " Giá:" + good.getPrice());//Dùng để chuyển good về string đưa lên view
-                            }
-
                             handler.post(() -> {
                                 Toast.makeText(this, "Thêm dữ liệu sản phẩm vào database thành công", Toast.LENGTH_SHORT).show();
-                                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, goodListString);
-                                binding.goodsList.setAdapter(adapter);
                             });
                         } else { //Đã có dữ liệu thì tiến hành cập nhật
 
@@ -229,16 +224,8 @@ public class Lab5Activity extends ComponentActivity {
                                 goodsDAO.update(good);//Cập nhật dữ liệu
                             }
 
-                            //Lấy dữ liệu từ database
-                            List<Good> goodListDatabase=goodsDAO.findAll();
-                            for(Good good :goodListDatabase){
-                                goodListString.add("ID:" + good.getId() + " Tên:" + good.getName() + " Giá:" + good.getPrice());//Dùng để chuyển good về string đưa lên view
-                            }
-
                             handler.post(() -> {
                                 Toast.makeText(this, "Cập nhật dữ liệu sản phẩm vào database thành công", Toast.LENGTH_SHORT).show();
-                                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, goodListString);
-                                binding.goodsList.setAdapter(adapter);
                             });
                         }
                     } catch (Exception er) {
@@ -248,6 +235,44 @@ public class Lab5Activity extends ComponentActivity {
                 });
 
             }
+        });
+    }
+
+    //Hàm này dùng để load dữ liệu từ database
+    private void btnLoadHandle() {
+        binding.btnLoad.setOnClickListener(view -> {
+            //Tiến hành kiểm tra xem database có dữ liệu chưa
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(getMainLooper());
+            executorService.execute(() -> {
+                try {
+                    int count = goodsDAO.getCount();
+                    List<String> goodListString = new ArrayList<>();
+
+                    //Không có dữ liệu trong database
+                    if (count == 0) {
+                        handler.post(() -> {
+                            Toast.makeText(this, "Database trống", Toast.LENGTH_SHORT).show();
+                        });
+                    } else {
+
+                        //Lấy dữ liệu từ database
+                        List<Good> goodListDatabase = goodsDAO.findAll();
+                        for (Good good : goodListDatabase) {
+                            goodListString.add("ID:" + good.getId() + " Tên:" + good.getName() + " Giá:" + good.getPrice());//Dùng để chuyển good về string đưa lên view
+                        }
+
+                        //Tiến hành đổ dữ liệu lên view
+                        handler.post(() -> {
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, goodListString);
+                            binding.goodsList.setAdapter(adapter);
+                        });
+                    }
+
+                } catch (Exception e) {
+                    Log.e("DEBUG", "Error from load:" + e);
+                }
+            });
         });
     }
 

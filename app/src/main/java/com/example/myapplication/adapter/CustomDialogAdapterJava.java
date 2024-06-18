@@ -21,15 +21,6 @@ public class CustomDialogAdapterJava extends RecyclerView.Adapter<CustomDialogAd
         this.productList = new ArrayList<>(productList);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        DialogItemBinding binding;
-
-        public ViewHolder(DialogItemBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-    }
-
     @NonNull
     @Override
     public CustomDialogAdapterJava.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,9 +43,9 @@ public class CustomDialogAdapterJava extends RecyclerView.Adapter<CustomDialogAd
             holder.binding.productType3.setText(product.getListProductType().get(2).getName());
 
 
-            holder.binding.productAmount1.setText(product.getListProductType().get(0).getAmount());
-            holder.binding.productAmount2.setText(product.getListProductType().get(1).getAmount());
-            holder.binding.productAmount3.setText(product.getListProductType().get(2).getAmount());
+            holder.binding.productAmount1.setText(String.valueOf(product.getListProductType().get(0).getAmount()));
+            holder.binding.productAmount2.setText(String.valueOf(product.getListProductType().get(1).getAmount()));
+            holder.binding.productAmount3.setText(String.valueOf(product.getListProductType().get(2).getAmount()));
 
 
         }
@@ -64,6 +55,15 @@ public class CustomDialogAdapterJava extends RecyclerView.Adapter<CustomDialogAd
     @Override
     public int getItemCount() {
         return productList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        DialogItemBinding binding;
+
+        public ViewHolder(DialogItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
     }
 
 
