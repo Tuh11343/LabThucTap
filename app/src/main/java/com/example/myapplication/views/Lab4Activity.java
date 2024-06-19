@@ -20,6 +20,8 @@ import com.example.myapplication.model.lab2.Item;
 import com.example.myapplication.model.lab2.Product;
 import com.example.myapplication.model.lab2.ProductType;
 import com.example.myapplication.network.lab1.RetrofitClient;
+import com.example.myapplication.repository.lab5.DAO.GoodsDAO;
+import com.example.myapplication.repository.lab5.DAO.GoodsDatabase;
 import com.example.myapplication.utils.lab2.CustomDialog;
 import com.example.myapplication.utils.lab2.CustomDialogJava;
 
@@ -38,6 +40,10 @@ public class Lab4Activity extends ComponentActivity {
     private Lab4ItemAdapter adapter;
 
     private Controller mViewModel;
+
+    private GoodsDatabase database;
+
+    private GoodsDAO goodsDAO;
 
 
     @Override
