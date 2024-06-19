@@ -22,7 +22,7 @@ import java.util.List;
 public class Lab6ItemAdapter extends RecyclerView.Adapter<Lab6ItemAdapter.ViewHolder> {
 
     private List<Item6> itemList;
-    private List<String> productChooseList; //Biến này dùng để lưu giá trị chọn product
+    private List<String> productChooseList; //Biến này dùng để lưu giá trị chọn product từ product spinner
     private Lab6Listener mListener;
 
     public Lab6ItemAdapter(List<Item6> itemAdapterList, Lab6Listener listener) {
@@ -81,6 +81,7 @@ public class Lab6ItemAdapter extends RecyclerView.Adapter<Lab6ItemAdapter.ViewHo
                 }
             });
 
+            //Đăng ký call back cho nút thêm và xóa
             holder.binding.addMore.setOnClickListener(v -> mListener.add());
 
             holder.binding.delete.setOnClickListener(v -> mListener.delete(item));
@@ -110,12 +111,15 @@ public class Lab6ItemAdapter extends RecyclerView.Adapter<Lab6ItemAdapter.ViewHo
         return resultList;
     }
 
+
+    //Hàm này dùng để thêm item vào trong adapter
     public void add(Item6 item) {
         itemList.add(item);
         productChooseList.add(item.getProductList().get(0));
         notifyItemInserted(itemList.size() - 1);
     }
 
+    //Hàm này dùng để xóa item khỏi adapter
     public void delete(Item6 item) {
         int position = itemList.indexOf(item);
         if (position != -1) {

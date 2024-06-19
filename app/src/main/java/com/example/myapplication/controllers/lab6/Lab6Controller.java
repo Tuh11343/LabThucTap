@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.myapplication.model.lab1.RegisterContents;
 import com.example.myapplication.model.lab1.RegisterRequest;
@@ -25,6 +24,9 @@ import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,7 +34,7 @@ import retrofit2.Response;
 import com.example.myapplication.model.lab1.SearchRequest;
 
 
-public class Lab6Controller extends ViewModel {
+public class Lab6Controller extends AndroidViewModel {
 
     private APIService apiService;
     private GoodsDAO goodsDAO;
@@ -46,9 +48,16 @@ public class Lab6Controller extends ViewModel {
     public MediatorLiveData<Pair<String, Integer>> combinedData;
     public MediatorLiveData<Pair<List<Staff>,List<Good>>> combinedListData;
 
-    public void init(){
+    public Lab6Controller(@NonNull Application application) {
+        super(application);
+        init(application);
+    }
+
+    public void init(Application application){
 
         apiService = RetrofitClient.Companion.get().create(APIService.class);
+        GoodsDatabase database=GoodsDatabase.getInstance(application);
+        goodsDAO=database.getGoodsDAO();
         dataUserID = new MutableLiveData<>();
         dataToken = new MutableLiveData<>();
         combinedData = new MediatorLiveData<>();
@@ -85,46 +94,87 @@ public class Lab6Controller extends ViewModel {
         });
     }
 
+    //Hàm này dùng để lấy danh sách sản phẩm
     public void getGoods(){
 
-        //Khởi tạo body để gửi đi {"contents":{}}
-        JsonObject requestBody = new JsonObject();
-        JsonObject requestContent = new JsonObject();
-        requestBody.add("contents", requestContent);
+        //Check xem database có dữ liệu không
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> {
+            try {
+                int count=goodsDAO.getCount();
 
-        //Tiến hành call api để lấy danh sách dữ liệu
-        apiService.getGoods(requestContent).enqueue(new Callback<JsonElement>() {
-            @Override
-            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                if(response.isSuccessful()){
-                    JsonElement jsonElement = response.body();
-//                    Log.d("DEBUG", "body:" + jsonElement);
-                    if(jsonElement!=null&&jsonElement.isJsonObject()){
-                        JsonObject jsonObject = jsonElement.getAsJsonObject();
-                        JsonArray contents = jsonObject.getAsJsonArray("contents");
+                //Nếu có thì lấy dữ liệu từ database đưa lên view
+                if(count>0){
+                    Log.i("DEBUG","Load du lieu tu database");
+                    List<Good> goodList=goodsDAO.findAll();
 
-
-                        //Lấy good và gán dữ liệu vào mutable live data
-                        JsonArray goodsJsonArray=contents.get(0).getAsJsonObject().get("goods").getAsJsonArray();
-                        List<Good> goodListData=Good.getGoods(goodsJsonArray);
-                        dataGoodList.postValue(goodListData);
-
-
-                    }else{
-                        Log.e("DEBUG", "Invalid JSON response");
-                    }
+                    //Sau khi lấy dữ liệu từ database tiến hành gán giá trị
+                    dataGoodList.postValue(goodList);
                 }else{
-                    try {
-                        Log.e("DEBUG", "Response error: " + response.errorBody().string());
-                    } catch (IOException e) {
-                        Log.e("DEBUG", "Error reading error body: " + e.getMessage());
-                    }
-                }
-            }
 
-            @Override
-            public void onFailure(Call<JsonElement> call, Throwable t) {
-                Log.e("DEBUG", "Error:"+t);
+                    //Nếu không có dữ liệu tiến hành call api lấy dữ liệu
+                    Log.i("DEBUG","Call api lay du lieu");
+                    //Khởi tạo body để gửi đi {"contents":{}}
+                    JsonObject requestBody = new JsonObject();
+                    JsonObject requestContent = new JsonObject();
+                    requestBody.add("contents", requestContent);
+
+                    //Tiến hành call api để lấy danh sách dữ liệu
+                    apiService.getGoods(requestContent).enqueue(new Callback<JsonElement>() {
+                        @Override
+                        public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                            if(response.isSuccessful()){
+                                JsonElement jsonElement = response.body();
+                                if(jsonElement!=null&&jsonElement.isJsonObject()){
+                                    JsonObject jsonObject = jsonElement.getAsJsonObject();
+                                    JsonArray contents = jsonObject.getAsJsonArray("contents");
+
+
+                                    //Lấy good và gán dữ liệu vào mutable live data
+                                    JsonArray goodsJsonArray=contents.get(0).getAsJsonObject().get("goods").getAsJsonArray();
+                                    List<Good> goodListData=Good.getGoods(goodsJsonArray);
+                                    dataGoodList.postValue(goodListData);
+
+                                    //Thêm dữ liệu vào database
+                                    addGoodToDatabase(goodListData);
+
+
+                                }else{
+                                    Log.e("DEBUG", "Invalid JSON response");
+                                }
+                            }else{
+                                try {
+                                    Log.e("DEBUG", "Response error: " + response.errorBody().string());
+                                } catch (IOException e) {
+                                    Log.e("DEBUG", "Error reading error body: " + e.getMessage());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonElement> call, Throwable t) {
+                            Log.e("DEBUG", "Error:"+t);
+                        }
+                    });
+                }
+            } catch (Exception er) {
+                Log.i("DEBUG", "Error from get goods list" + er);
+
+            }
+        });
+    }
+
+    //Thêm list sản phẩm vào database
+    private void addGoodToDatabase(List<Good> goodListData) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> {
+            try {
+                for(Good good: goodListData){
+                    goodsDAO.add(good);
+                }
+            } catch (Exception er) {
+                Log.i("DEBUG", "Error from get goods list" + er);
+
             }
         });
     }
@@ -151,6 +201,7 @@ public class Lab6Controller extends ViewModel {
                             int userID = userInfo.get("id").getAsInt();
                             String token = userInfo.get("token").getAsString();
 
+                            //Sau khi lấy được token và userID tiến hành gán giá trị
                             dataUserID.postValue(userID);
                             dataToken.postValue(token);
                         }
@@ -186,7 +237,6 @@ public class Lab6Controller extends ViewModel {
                 try{
                     if (response.isSuccessful()) {
                         JsonElement jsonElement = response.body();
-                        Log.d("DEBUG", "body:" + jsonElement);
                         if (jsonElement != null && jsonElement.isJsonObject()) {
                             JsonObject jsonObject = jsonElement.getAsJsonObject();
                             JsonObject status = jsonObject.getAsJsonObject("status");
@@ -214,3 +264,4 @@ public class Lab6Controller extends ViewModel {
     }
 
 }
+

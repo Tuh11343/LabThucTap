@@ -15,6 +15,7 @@ import com.example.myapplication.adapter.lab6.Lab6ItemAdapter;
 import com.example.myapplication.adapter.lab6.Lab6Listener;
 import com.example.myapplication.controllers.lab1.Controller;
 import com.example.myapplication.controllers.lab6.Lab6Controller;
+import com.example.myapplication.controllers.lab6.Lab6ControllerFactory;
 import com.example.myapplication.databinding.Lab6LayoutBinding;
 import com.example.myapplication.model.lab1.RegisterContents;
 import com.example.myapplication.model.lab1.SearchContents;
@@ -56,8 +57,8 @@ public class Lab6Activity extends ComponentActivity {
         setContentView(binding.getRoot());
 
         //Khởi tạo viewmodel
-        mViewModel = new ViewModelProvider(this).get(Lab6Controller.class);
-        mViewModel.init();
+        Lab6ControllerFactory factory = new Lab6ControllerFactory(getApplication());
+        mViewModel = new ViewModelProvider(this, factory).get(Lab6Controller.class);
 
         //Đăng ký branch
         RetrofitClient.Companion.setBranch("1");
@@ -97,6 +98,7 @@ public class Lab6Activity extends ComponentActivity {
         });
     }
 
+    //Hàm này dùng để khởi tạo adapter cho view
     private void setUpAdapter(List<Item6> itemList, List<String> productList,List<ProductType6> productTypeList) {
         adapter = new Lab6ItemAdapter(itemList, new Lab6Listener() {
 
@@ -104,6 +106,7 @@ public class Lab6Activity extends ComponentActivity {
             @Override
             public void add() {
 
+                //Tạo mới 2 danh sách sản phẩm và loại sản phẩm tránh trường hợp sử dụng chung
                 List<String> addProductList=new ArrayList<>();
                 for(String value:productList){
                     addProductList.add(value);
@@ -114,6 +117,7 @@ public class Lab6Activity extends ComponentActivity {
                     addProductTypeList.add(new ProductType6(productType6.getName(),new ArrayList<>(Arrays.asList(0, 0))));
                 }
 
+                //Gọi hàm add để thêm item vào adapter
                 adapter.add(new Item6(addProductList,addProductTypeList));
             }
 
@@ -170,6 +174,7 @@ public class Lab6Activity extends ComponentActivity {
         });
     }
 
+    //Hàm này dùng để quan sát dữ liệu 2 danh sách nhân viên và sản phẩm
     private void observeData() {
         mViewModel.combinedListData.observe(this, data -> {
             try{
@@ -181,23 +186,32 @@ public class Lab6Activity extends ComponentActivity {
                     Toast.makeText(this,"Danh sách sản phẩm rỗng",Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                //Khởi tạo list item cho adapter
                 List<Item6> itemList=new ArrayList<>();
 
                 //Lấy danh sách sản phẩm
                 List<Good> goodList=data.second;
+
+                //Khởi tạo danh sách loại sản phẩm bao gồm tên và import,export(Giá trị ban đầu là 0,0)
                 List<ProductType6> productTypeAdapterList=new ArrayList<>();
                 for(Good good:goodList){
                     productTypeAdapterList.add(new ProductType6(good.getName(),new ArrayList<>(Arrays.asList(0, 0))));
                 }
 
-                //Gán dữ liệu vào danh sách sản phẩm
-                List<String> productList;
-                productList = data.first.stream()
+                //Khởi tạo danh sách sản phẩm
+                List<String> productList=new ArrayList<>();
+                for(Staff staff:data.first){
+                    productList.add(staff.getName());
+                }
+                /*productList = data.first.stream()
                         .map(Staff::getName)
-                        .collect(Collectors.toCollection(ArrayList::new));
+                        .collect(Collectors.toCollection(ArrayList::new));*/
 
+                //Khởi tạo giá trị ban đầu cho adapter
                 itemList.add(new Item6(productList,productTypeAdapterList));
 
+                //Khởi tạo adapter
                 binding.recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
                 setUpAdapter(itemList, productList,productTypeAdapterList);
 
@@ -207,6 +221,7 @@ public class Lab6Activity extends ComponentActivity {
         });
     }
 
+    //Hàm này dùng để check xem controller có hoạt động không
     private void testObserve(){
         mViewModel.dataStaffList.observe(this,staffList -> {
             Log.i("DEBUG","StaffList:"+staffList.size());
