@@ -1,7 +1,9 @@
 package com.example.myapplication.views;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
@@ -32,6 +34,7 @@ import com.example.myapplication.repository.lab5.DAO.GoodsDAO;
 import com.example.myapplication.repository.lab5.DAO.GoodsDatabase;
 import com.example.myapplication.utils.lab2.CustomDialogJava;
 import com.example.myapplication.utils.lab6.CustomDialogJava6;
+import com.example.myapplication.utils.lab6.LoadingDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,12 +52,18 @@ public class Lab6Activity extends ComponentActivity {
 
     private Lab6Controller mViewModel;
 
+    private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = Lab6LayoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        //Khởi tạo loading
+        loadingDialog = new LoadingDialog(this);
+        loadingDialog.setDialog(true);
 
         //Khởi tạo viewmodel
         Lab6ControllerFactory factory = new Lab6ControllerFactory(getApplication());
@@ -114,7 +123,7 @@ public class Lab6Activity extends ComponentActivity {
 
                 List<ProductType6> addProductTypeList=new ArrayList<>();
                 for(ProductType6 productType6:productTypeList){
-                    addProductTypeList.add(new ProductType6(productType6.getName(),new ArrayList<>(Arrays.asList(0, 0))));
+                    addProductTypeList.add(new ProductType6(productType6.getName(),new ArrayList<>(Arrays.asList(0L, 0L))));
                 }
 
                 //Gọi hàm add để thêm item vào adapter
@@ -127,7 +136,13 @@ public class Lab6Activity extends ComponentActivity {
                 adapter.delete(item);
             }
         });
-        binding.recyclerView.setAdapter(adapter);
+
+        //Tiến hành show recyclerView
+        new Handler().postDelayed(() -> {
+            loadingDialog.setDialog(false);
+            binding.recyclerView.setVisibility(View.VISIBLE);
+            binding.recyclerView.setAdapter(adapter);
+        }, 1000);
     }
 
     public boolean hasDuplicateProductName(List<Product> productList) {
@@ -196,7 +211,7 @@ public class Lab6Activity extends ComponentActivity {
                 //Khởi tạo danh sách loại sản phẩm bao gồm tên và import,export(Giá trị ban đầu là 0,0)
                 List<ProductType6> productTypeAdapterList=new ArrayList<>();
                 for(Good good:goodList){
-                    productTypeAdapterList.add(new ProductType6(good.getName(),new ArrayList<>(Arrays.asList(0, 0))));
+                    productTypeAdapterList.add(new ProductType6(good.getName(),new ArrayList<>(Arrays.asList(0L, 0L))));
                 }
 
                 //Khởi tạo danh sách sản phẩm

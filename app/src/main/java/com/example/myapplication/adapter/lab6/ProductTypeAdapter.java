@@ -65,7 +65,7 @@ public class ProductTypeAdapter extends RecyclerView.Adapter<ProductTypeAdapter.
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         String textStr = s.toString();
-                        int amount = textStr.isEmpty() ? 0 : Integer.parseInt(textStr);
+                        long amount = textStr.isEmpty() ? 0 : Long.parseLong(textStr);
                         productType.getInputList().set(0,amount);
                     }
 
@@ -84,7 +84,7 @@ public class ProductTypeAdapter extends RecyclerView.Adapter<ProductTypeAdapter.
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         String textStr = s.toString();
-                        int amount = textStr.isEmpty() ? 0 : Integer.parseInt(textStr);
+                        long amount = textStr.isEmpty() ? 0 : Long.parseLong(textStr);
                         productType.getInputList().set(1,amount);
                     }
 

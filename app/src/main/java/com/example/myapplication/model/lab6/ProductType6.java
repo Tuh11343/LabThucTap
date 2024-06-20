@@ -5,9 +5,9 @@ import java.util.List;
 public class ProductType6 {
 
     String name;
-    List<Integer> inputList;
+    List<Long> inputList;
 
-    public ProductType6(String name, List<Integer> inputList) {
+    public ProductType6(String name, List<Long> inputList) {
         this.name = name;
         this.inputList = inputList;
     }
@@ -20,11 +20,11 @@ public class ProductType6 {
         this.name = name;
     }
 
-    public List<Integer> getInputList() {
+    public List<Long> getInputList() {
         return inputList;
     }
 
-    public void setInputList(List<Integer> inputList) {
+    public void setInputList(List<Long> inputList) {
         this.inputList = inputList;
     }
 }

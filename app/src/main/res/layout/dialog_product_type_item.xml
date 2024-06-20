@@ -4,79 +4,73 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_marginBottom="10dp"
+    android:weightSum="10"
     >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/index"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:text="1"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/productTypeName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="6"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="Product Type 1"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="3"
         >
 
         <TextView
-            android:id="@+id/index"
-            android:layout_width="wrap_content"
+            android:id="@+id/importInput"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:text="1"
-            android:textColor="@color/black"
+            android:text="Import"
             android:textSize="16dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/productTypeName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="normal"
             android:layout_marginLeft="5dp"
-            android:layout_weight="5"
-            android:maxLines="1"
             android:ellipsize="end"
-            android:text="Product Type 1"
-            android:textColor="@color/black"
-            android:textSize="16dp"
-            android:textStyle="bold"
+            android:maxLines="1"
             />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+
+        <TextView
+            android:id="@+id/exportInput"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:text="Export"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:textStyle="normal"
             android:layout_marginLeft="5dp"
-            >
-
-            <TextView
-                android:id="@+id/importInput"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Import"
-                android:textSize="16dp"
-                android:textColor="@color/black"
-                android:textStyle="normal"
-                android:layout_marginLeft="5dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:layout_weight="3"
-                />
-
-
-            <TextView
-                android:id="@+id/exportInput"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Export"
-                android:textSize="16dp"
-                android:textColor="@color/black"
-                android:textStyle="normal"
-                android:layout_marginLeft="5dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:layout_weight="3"
-                android:layout_marginTop="5dp"
-                />
-
-        </LinearLayout>
-
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginTop="5dp"
+            />
 
     </LinearLayout>
 

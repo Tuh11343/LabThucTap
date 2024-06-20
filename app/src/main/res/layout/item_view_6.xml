@@ -1,42 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:padding="10dp"
-    android:orientation="horizontal">
+    android:weightSum="10">
 
     <LinearLayout
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="13"
+        android:layout_weight="5"
+        android:orientation="horizontal"
+        android:weightSum="10"
         >
-
-        <TextView
-            android:id="@+id/index"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:textSize="14dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:maxLines="1"
-            android:ellipsize="end"
-            />
 
         <!--    <View-->
         <!--        android:layout_width="5dp"-->
         <!--        android:layout_height="fill_parent"-->
         <!--        android:background="@android:color/black" />-->
 
+        <TextView
+            android:id="@+id/index"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="1"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
         <Spinner
             android:id="@+id/spinnerProduct"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:entries="@array/type_spinner" />
+            android:entries="@array/type_spinner"
+            android:layout_weight="9"
+            />
 
     </LinearLayout>
 
@@ -44,44 +50,38 @@
         android:id="@+id/productTypeList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="10"
+        android:layout_weight="4"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="3"
         tools:listitem="@layout/product_type_item_view" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="center_vertical"
-        >
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <ImageButton
             android:id="@+id/addMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_plus_24"
-            android:scaleType="center"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
-            />
+            android:scaleType="center"
+            android:src="@drawable/icon_plus_24" />
 
         <ImageButton
             android:id="@+id/delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_minus_24"
-            android:scaleType="center"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:adjustViewBounds="true"
-            />
+            android:scaleType="center"
+            android:src="@drawable/icon_minus_24" />
 
     </LinearLayout>
-
-
-
-
 
 
 </LinearLayout>

@@ -14,7 +14,9 @@
         tools:listitem="@layout/item_view_6"
         tools:itemCount="3"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:visibility="gone"
         />
+
 
     <Button
         android:id="@+id/btnConfirm"
