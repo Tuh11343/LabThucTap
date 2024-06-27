@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
         }
 
         binding.btnLab6.setOnClickListener{
-            startActivity(Intent(this,Lab6Activity::class.java))
+            startActivity(Intent(this,SignInActivity::class.java))
         }
     }
 

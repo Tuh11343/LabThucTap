@@ -13,6 +13,7 @@
     <string name="title_activity_lab4">Lab4Activity</string>
     <string name="title_activity_lab5">Lab5Activity</string>
     <string name="title_activity_lab6">Lab6Activity</string>
+    <string name="title_activity_signIn">Sign In</string>
 
 
 </resources>

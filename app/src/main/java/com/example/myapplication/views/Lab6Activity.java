@@ -63,29 +63,17 @@ public class Lab6Activity extends ComponentActivity {
 
         //Khởi tạo loading
         loadingDialog = new LoadingDialog(this);
-        loadingDialog.setDialog(true);
 
         //Khởi tạo viewmodel
         Lab6ControllerFactory factory = new Lab6ControllerFactory(getApplication());
         mViewModel = new ViewModelProvider(this, factory).get(Lab6Controller.class);
 
-        //Đăng ký branch
-        RetrofitClient.Companion.setBranch("1");
-
-        mViewModel.registerDeviceApp(new RegisterContents(
-                "test2@tmmn",
-                "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
-                "22184a05bdd68cb1",
-                "123456",
-                "1.5.7",
-                "tuhDevice"));
-
-        //Kiểm tra xem dữ liệu sau khi call api có hoạt động không
-        observeDataToken();
         observeData();
-        testObserve();
 
         btnConfirmHandle();
+
+        //Gọi hàm lấy danh sách nhân viên
+        getData();
     }
 
     private void btnConfirmHandle() {
@@ -167,26 +155,16 @@ public class Lab6Activity extends ComponentActivity {
     }
 
 
-    //Hàm này dùng để quan sát giá trị của token và userID có lấy được hay chưa
-    private void observeDataToken() {
-        mViewModel.combinedData.observe(this, data -> {
-            if (mViewModel.dataToken.getValue() != null) {
+    //Hàm này dùng để lấy danh sách nhân viên và sản phẩm
+    private void getData() {
+        loadingDialog.setDialog(true);
+        SearchContents searchContents = new SearchContents(-1, 755);
 
-                //Set token cho client
-                RetrofitClient.Companion.setAuthToken(data.first);
+        //Call API lây danh sách nhân viên
+        mViewModel.search(searchContents);
 
-                //Đây là chỗ xử lý bắt đầu call api lấy danh sách dữ liệu cần thiết
-                /*--------------------------------------------------------------------------------*/
-                //Call API lấy danh sách nhân viên
-                SearchContents searchContents = new SearchContents(-1, 755);
-                mViewModel.search(searchContents);
-
-                //Call API lấy danh sách sản phẩm
-                mViewModel.getGoods();
-            }else{
-                Log.e("DEBUG","Data Token is null");
-            }
-        });
+        //Call API lấy danh sách sản phẩm
+        mViewModel.getGoods();
     }
 
     //Hàm này dùng để quan sát dữ liệu 2 danh sách nhân viên và sản phẩm
@@ -236,21 +214,6 @@ public class Lab6Activity extends ComponentActivity {
         });
     }
 
-    //Hàm này dùng để check xem controller có hoạt động không
-    private void testObserve(){
-        mViewModel.dataStaffList.observe(this,staffList -> {
-            Log.i("DEBUG","StaffList:"+staffList.size());
-        });
 
-        mViewModel.dataGoodList.observe(this,goods -> {
-            Log.i("DEBUG","Goods:"+goods.size());
-
-        });
-
-        mViewModel.dataToken.observe(this,token -> {
-            Log.i("DEBUG","DataToken:"+token);
-
-        });
-    }
 
 }

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp"
-    android:weightSum="10">
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -14,8 +13,7 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="5"
         android:orientation="horizontal"
-        android:weightSum="10"
-        >
+        android:weightSum="10">
 
         <!--    <View-->
         <!--        android:layout_width="5dp"-->
@@ -40,9 +38,8 @@
             android:id="@+id/spinnerProduct"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:entries="@array/type_spinner"
             android:layout_weight="9"
-            />
+            android:entries="@array/type_spinner" />
 
     </LinearLayout>
 
@@ -59,27 +56,39 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
+        android:layout_weight="1.2"
         android:orientation="vertical">
 
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/addMore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:adjustViewBounds="true"
-            android:scaleType="center"
-            android:src="@drawable/icon_plus_24" />
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:icon="@drawable/baseline_add_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="18dp"
+            android:layout_gravity="center"
+            />
 
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:icon="@drawable/baseline_remove_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="18dp"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:adjustViewBounds="true"
-            android:scaleType="center"
-            android:src="@drawable/icon_minus_24" />
+            />
 
     </LinearLayout>
 

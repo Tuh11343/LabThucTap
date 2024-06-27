@@ -72,23 +72,11 @@ public class Lab6Controller extends AndroidViewModel {
                 combinedData.setValue(new Pair<>(token, userID));
             }
         });
-        combinedData.addSource(dataUserID, userID -> {
-            String token = dataToken.getValue();
-            if (token != null) {
-                combinedData.setValue(new Pair<>(token, userID));
-            }
-        });
 
         /*Thằng này dùng để kết hợp 2 dữ liệu danh sách để thông báo 1 lần*/
         combinedListData.addSource(dataStaffList,staffList -> {
             List<Good> goodList=dataGoodList.getValue();
             if(goodList!=null){
-                combinedListData.setValue(new Pair<>(staffList,goodList));
-            }
-        });
-        combinedListData.addSource(dataGoodList,goodList -> {
-            List<Staff> staffList=dataStaffList.getValue();
-            if(staffList!=null){
                 combinedListData.setValue(new Pair<>(staffList,goodList));
             }
         });
