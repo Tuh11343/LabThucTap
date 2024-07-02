@@ -119,7 +119,7 @@ class Lab3Controller(application: Application) : AndroidViewModel(application) {
                     requestBody.add("contents", requestContent)
 
                     //Tiến hành call api để lấy danh sách dữ liệu
-                    apiService!!.getGoods(requestContent).enqueue(object : Callback<JsonElement?> {
+                    apiService.getGoods(requestContent).enqueue(object : Callback<JsonElement?> {
                         override fun onResponse(
                             call: Call<JsonElement?>, response: Response<JsonElement?>
                         ) {

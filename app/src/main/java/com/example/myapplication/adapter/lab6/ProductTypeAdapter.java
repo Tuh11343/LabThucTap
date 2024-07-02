@@ -53,8 +53,12 @@ public class ProductTypeAdapter extends RecyclerView.Adapter<ProductTypeAdapter.
                 holder.binding.exportInput.removeTextChangedListener((TextWatcher) holder.binding.exportInput.getTag());
 
                 //Gán giá trị cho import và export
-                holder.binding.importInput.setText(String.valueOf(productType.getInputList().get(0)));
-                holder.binding.exportInput.setText(String.valueOf(productType.getInputList().get(1)));
+                if(productType.getInputList().get(0)!=0){
+                    holder.binding.importInput.setText(String.valueOf(productType.getInputList().get(0)));
+                }
+                if(productType.getInputList().get(1)!=0){
+                    holder.binding.exportInput.setText(String.valueOf(productType.getInputList().get(1)));
+                }
 
                 //Thêm callback cho input text
                 TextWatcher importTextWatcher = new TextWatcher() {

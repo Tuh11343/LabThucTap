@@ -65,10 +65,6 @@ public class SignInActivity extends ComponentActivity {
             }
         });
 
-        binding.signUp.setOnClickListener(view -> {
-            Toast.makeText(this, "Bạn đã nhấn vào đăng ký", Toast.LENGTH_SHORT).show();
-        });
-
         binding.forgotPassword.setOnClickListener(view -> {
             Toast.makeText(this, "Bạn đã nhấn vào quên mật khẩu", Toast.LENGTH_SHORT).show();
         });
@@ -77,6 +73,7 @@ public class SignInActivity extends ComponentActivity {
 
     }
 
+    //Hàm này dùng để clear focus tất cả edit text khi nhấn ra ngoài màn hình
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {

@@ -45,17 +45,17 @@ class Lab3ItemAdapter(
             //Khởi tạo adapter cho spinner
             val adapter = ArrayAdapter(
                 holder.itemView.context,
-                R.layout.spinner_text,
+                R.layout.custom_dropdown_item,
                 item.productList
             )
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            holder.binding.spinnerProduct.adapter = adapter
+            /*holder.binding.spinnerProduct.adapter = adapter*/
 
             //Khởi tạo adapter cho Product Type List
             val productTypeAdapter = ProductTypeAdapter(item.productTypeList)
             holder.binding.productTypeList.adapter = productTypeAdapter
 
-            //Gán giá trị cho product spinner
+            /*//Gán giá trị cho product spinner
             if (productChooseList[holder.bindingAdapterPosition].isNotEmpty()) {
                 holder.binding.spinnerProduct.setSelection(
                     item.productList.indexOf(
@@ -82,7 +82,7 @@ class Lab3ItemAdapter(
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
+            }*/
 
             //Đăng ký call back cho nút thêm và xóa
             holder.binding.addMore.setOnClickListener { mListener.add() }

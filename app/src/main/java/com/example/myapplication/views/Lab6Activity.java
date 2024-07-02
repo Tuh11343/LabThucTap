@@ -1,15 +1,23 @@
 package com.example.myapplication.views;
 
+import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.adapter.lab4.Lab4ItemAdapter;
 import com.example.myapplication.adapter.lab4.Lab4Listener;
@@ -34,7 +42,9 @@ import com.example.myapplication.repository.lab5.DAO.GoodsDAO;
 import com.example.myapplication.repository.lab5.DAO.GoodsDatabase;
 import com.example.myapplication.utils.lab2.CustomDialogJava;
 import com.example.myapplication.utils.lab6.CustomDialogJava6;
+import com.example.myapplication.utils.lab6.FinalCustomDialog;
 import com.example.myapplication.utils.lab6.LoadingDialog;
+import com.example.myapplication.utils.lab6.MarginItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +54,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Lab6Activity extends ComponentActivity {
+public class Lab6Activity extends AppCompatActivity {
 
     private Lab6LayoutBinding binding;
 
@@ -72,8 +82,38 @@ public class Lab6Activity extends ComponentActivity {
 
         btnConfirmHandle();
 
+        setSupportActionBar(binding.topAppBar);
+
+        // Enable the Up button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle(null);
+
+        binding.topAppBar.setNavigationOnClickListener(view -> finish());
+
+
         //Gọi hàm lấy danh sách nhân viên
         getData();
+
+    }
+
+
+    //Hàm này dùng để clear focus tất cả edit text khi nhấn ra ngoài màn hình
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
     }
 
     private void btnConfirmHandle() {
@@ -90,7 +130,11 @@ public class Lab6Activity extends ComponentActivity {
                 CustomDialogJava dialog = new CustomDialogJava(Lab4Activity.this, productList);
                 dialog.show();
             }*/
-            CustomDialogJava6 dialog = new CustomDialogJava6(Lab6Activity.this, productList);
+            /*CustomDialogJava6 dialog = new CustomDialogJava6(Lab6Activity.this, productList);
+            dialog.show();*/
+
+            //Hiển thị dialog
+            FinalCustomDialog dialog=new FinalCustomDialog(Lab6Activity.this,productList);
             dialog.show();
         });
     }
@@ -205,7 +249,10 @@ public class Lab6Activity extends ComponentActivity {
                 itemList.add(new Item6(productList,productTypeAdapterList));
 
                 //Khởi tạo adapter
-                binding.recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+                /*binding.recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));*/
+                int marginBottom = (int) (5 * getResources().getDisplayMetrics().density); // Convert 20dp to pixels
+                binding.recyclerView.addItemDecoration(new MarginItemDecoration(marginBottom));
+
                 setUpAdapter(itemList, productList,productTypeAdapterList);
 
             }catch (Exception er){
@@ -217,3 +264,4 @@ public class Lab6Activity extends ComponentActivity {
 
 
 }
+

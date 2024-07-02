@@ -5,15 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@drawable/rounded_corner"
+    >
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="5"
-        android:orientation="horizontal"
-        android:weightSum="10">
+        android:orientation="horizontal">
 
         <!--    <View-->
         <!--        android:layout_width="5dp"-->
@@ -22,10 +23,9 @@
 
         <TextView
             android:id="@+id/index"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
@@ -34,12 +34,39 @@
             android:textSize="14dp"
             android:textStyle="bold" />
 
-        <Spinner
+        <!--<Spinner
             android:id="@+id/spinnerProduct"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="9"
-            android:entries="@array/type_spinner" />
+            android:entries="@array/type_spinner"
+            />-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:hint="Nhà phân phối"
+            android:layout_weight="1"
+            >
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Test Nhân Viên Thứ 3"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textStyle="normal"
+                android:inputType="none"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
@@ -57,7 +84,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1.2"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginLeft="5dp"
+        >
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addMore"
@@ -72,6 +101,7 @@
             app:iconPadding="0dp"
             app:iconSize="18dp"
             android:layout_gravity="center"
+            android:backgroundTint="@color/green"
             />
 
         <com.google.android.material.button.MaterialButton
@@ -88,6 +118,7 @@
             app:iconSize="18dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
+            android:backgroundTint="@color/green"
             />
 
     </LinearLayout>

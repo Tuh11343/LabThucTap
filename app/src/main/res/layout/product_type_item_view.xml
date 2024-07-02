@@ -2,45 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="10"
-    >
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/index"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
         android:text="1"
         android:textColor="@color/black"
         android:textSize="13sp"
-        android:textStyle="bold"
-        android:layout_weight="0.5"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/productTypeName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dp"
         android:layout_weight="6"
-        android:maxLines="1"
         android:ellipsize="end"
+        android:maxLines="2"
         android:text="Product Type 1"
         android:textColor="@color/black"
         android:textSize="13sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_vertical"
-        />
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginLeft="5dp"
         android:layout_weight="3.5"
-        >
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/importInput"
@@ -49,9 +43,8 @@
             android:layout_toRightOf="@id/productTypeName"
             android:hint="Nhập"
             android:inputType="number"
-            android:textSize="13sp"
             android:maxLength="10"
-            />
+            android:textSize="13sp" />
 
         <EditText
             android:id="@+id/exportInput"
@@ -61,9 +54,8 @@
             android:layout_toRightOf="@id/productTypeName"
             android:hint="Xuất"
             android:inputType="number"
-            android:textSize="13sp"
             android:maxLength="10"
-            />
+            android:textSize="13sp" />
 
     </LinearLayout>
 

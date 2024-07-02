@@ -61,7 +61,7 @@ public class Lab4ItemAdapter extends RecyclerView.Adapter<Lab4ItemAdapter.ViewHo
             //Khởi tạo adapter cho spinner
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     holder.itemView.getContext(),
-                    R.layout.spinner_text,
+                    R.layout.custom_dropdown_item,
                     item.getProductList()
             );
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

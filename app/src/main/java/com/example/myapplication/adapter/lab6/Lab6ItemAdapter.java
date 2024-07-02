@@ -1,12 +1,15 @@
 package com.example.myapplication.adapter.lab6;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
@@ -14,6 +17,7 @@ import com.example.myapplication.databinding.ItemView6Binding;
 import com.example.myapplication.model.lab6.Item6;
 import com.example.myapplication.model.lab6.Product6;
 import com.example.myapplication.model.lab6.ProductType6;
+import com.example.myapplication.views.Lab7Activity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,9 +25,9 @@ import java.util.List;
 
 public class Lab6ItemAdapter extends RecyclerView.Adapter<Lab6ItemAdapter.ViewHolder> {
 
-    private List<Item6> itemList;
-    private List<String> productChooseList; //Biến này dùng để lưu giá trị chọn product từ product spinner
-    private Lab6Listener mListener;
+    private final List<Item6> itemList;
+    private final List<String> productChooseList; //Biến này dùng để lưu giá trị chọn product từ product spinner
+    private final Lab6Listener mListener;
 
     public Lab6ItemAdapter(List<Item6> itemAdapterList, Lab6Listener listener) {
         this.itemList = itemAdapterList;
@@ -41,31 +45,48 @@ public class Lab6ItemAdapter extends RecyclerView.Adapter<Lab6ItemAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Item6 item = itemList.get(holder.getBindingAdapterPosition());
+        Item6 item = itemList.get(holder.getAbsoluteAdapterPosition());
 
         if (item != null) {
-            holder.binding.index.setText(String.valueOf(holder.getBindingAdapterPosition()));
+            holder.binding.index.setText(String.valueOf(holder.getAbsoluteAdapterPosition()+1));
 
             //Khởi tạo adapter cho spinner
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+            /*ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     holder.itemView.getContext(),
                     R.layout.spinner_text,
                     item.getProductList()
             );
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            holder.binding.spinnerProduct.setAdapter(adapter);
+            holder.binding.spinnerProduct.setAdapter(adapter);*/
+            holder.binding.autoCompleteTextView.setAdapter(new ArrayAdapter<>(holder.itemView.getContext(), R.layout.custom_dropdown_item, item.getProductList()));
+            if (productChooseList.get(holder.getAbsoluteAdapterPosition()).isEmpty()) {//Nếu chưa có giá trị thì khởi tạo
+
+                String value=holder.binding.autoCompleteTextView.getAdapter().getItem(0).toString();
+
+                productChooseList.set(holder.getAbsoluteAdapterPosition(), value);
+                holder.binding.autoCompleteTextView.setText(value,false);
+
+            }else{//Nếu có giá trị thì set cho spinner
+                holder.binding.autoCompleteTextView.setText(productChooseList.get(holder.getAbsoluteAdapterPosition()),false);
+            }
+
+            //Xử lý khi spinner thay đổi
+            holder.binding.autoCompleteTextView.setOnItemClickListener((adapterView, view, spinnerPosition, l) -> {
+                productChooseList.set(holder.getAbsoluteAdapterPosition(), item.getProductList().get(spinnerPosition));
+            });
 
             //Khởi tạo adapter cho Product Type List
             ProductTypeAdapter productTypeAdapter = new ProductTypeAdapter(item.getProductTypeList());
             holder.binding.productTypeList.setAdapter(productTypeAdapter);
+            holder.binding.productTypeList.addItemDecoration(new DividerItemDecoration(holder.itemView.getContext(), DividerItemDecoration.VERTICAL));
 
-            //Gán giá trị cho product spinner
-            if (!productChooseList.get(holder.getBindingAdapterPosition()).isEmpty()) {
-                holder.binding.spinnerProduct.setSelection(item.getProductList().indexOf(productChooseList.get(holder.getBindingAdapterPosition())));
+            /*//Gán giá trị cho product spinner
+            if (!productChooseList.get(holder.getAbsoluteAdapterPosition()).isEmpty()) {
+                holder.binding.spinnerProduct.setSelection(item.getProductList().indexOf(productChooseList.get(holder.getAbsoluteAdapterPosition())));
             } else {
                 //Khởi tạo nếu chưa có giá trị
                 String initialValue = (String) holder.binding.spinnerProduct.getSelectedItem();
-                productChooseList.set(holder.getBindingAdapterPosition(), initialValue);
+                productChooseList.set(holder.getAbsoluteAdapterPosition(), initialValue);
             }
 
             //Xử lý khi spinner product thay đổi
@@ -73,13 +94,13 @@ public class Lab6ItemAdapter extends RecyclerView.Adapter<Lab6ItemAdapter.ViewHo
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                     String selectedItem = (String) parent.getItemAtPosition(pos);
-                    productChooseList.set(holder.getBindingAdapterPosition(), selectedItem);
+                    productChooseList.set(holder.getAbsoluteAdapterPosition(), selectedItem);
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
                 }
-            });
+            });*/
 
             //Đăng ký call back cho nút thêm và xóa
             holder.binding.addMore.setOnClickListener(v -> mListener.add());

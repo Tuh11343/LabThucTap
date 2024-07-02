@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/icon_person_24"
                 android:drawablePadding="10dp"
-                android:hint="Hãy điền vào tên đăng nhập"
+                android:hint="Tên đăng nhập"
                 android:inputType="text"
                 android:textColor="@color/black"
                 android:textSize="18dp" />
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/icon_password_24"
                 android:drawablePadding="10dp"
-                android:hint="Hãy điền vào mật khẩu"
+                android:hint="Mật khẩu"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textColor="@color/black"
@@ -76,35 +76,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:backgroundTint="#2F7986"
+            android:backgroundTint="@color/green"
             android:text="Đăng Nhập"
             android:textColor="@color/white"
             android:textSize="18dp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chưa có tài khoản? "
-                android:textColor="@color/black"
-                android:textSize="16dp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:id="@+id/signUp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đăng ký"
-                android:textColor="@color/black"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
