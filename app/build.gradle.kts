@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId = "com.example.myapplication"
         minSdk = 28
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -65,6 +65,7 @@ dependencies {
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.core:core:1.13.1")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -88,5 +89,9 @@ dependencies {
 
     //Circle ImageView
     implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    // https://mvnrepository.com/artifact/com.google.android.gms/play-services-maps
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
+
 
 }

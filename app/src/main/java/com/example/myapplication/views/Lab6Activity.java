@@ -34,6 +34,7 @@ import com.example.myapplication.model.lab2.Item;
 import com.example.myapplication.model.lab2.Product;
 import com.example.myapplication.model.lab2.ProductType;
 import com.example.myapplication.model.lab5.Good;
+import com.example.myapplication.model.lab6.Distributor;
 import com.example.myapplication.model.lab6.Item6;
 import com.example.myapplication.model.lab6.Product6;
 import com.example.myapplication.model.lab6.ProductType6;
@@ -205,7 +206,7 @@ public class Lab6Activity extends AppCompatActivity {
         SearchContents searchContents = new SearchContents(-1, 755);
 
         //Call API lây danh sách nhân viên
-        mViewModel.search(searchContents);
+//        mViewModel.search(searchContents);
 
         //Call API lấy danh sách sản phẩm
         mViewModel.getGoods();
@@ -238,19 +239,16 @@ public class Lab6Activity extends AppCompatActivity {
 
                 //Khởi tạo danh sách sản phẩm
                 List<String> productList=new ArrayList<>();
-                for(Staff staff:data.first){
-                    productList.add(staff.getName());
+                for(Distributor distributor:data.first){
+                    productList.add(distributor.getName());
                 }
-                /*productList = data.first.stream()
-                        .map(Staff::getName)
-                        .collect(Collectors.toCollection(ArrayList::new));*/
 
                 //Khởi tạo giá trị ban đầu cho adapter
                 itemList.add(new Item6(productList,productTypeAdapterList));
 
                 //Khởi tạo adapter
                 /*binding.recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));*/
-                int marginBottom = (int) (5 * getResources().getDisplayMetrics().density); // Convert 20dp to pixels
+                int marginBottom = (int) (5 * getResources().getDisplayMetrics().density); // Convert dp to pixels
                 binding.recyclerView.addItemDecoration(new MarginItemDecoration(marginBottom));
 
                 setUpAdapter(itemList, productList,productTypeAdapterList);

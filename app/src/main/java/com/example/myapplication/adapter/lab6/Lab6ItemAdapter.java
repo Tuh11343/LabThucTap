@@ -1,12 +1,8 @@
 package com.example.myapplication.adapter.lab6;
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -17,7 +13,6 @@ import com.example.myapplication.databinding.ItemView6Binding;
 import com.example.myapplication.model.lab6.Item6;
 import com.example.myapplication.model.lab6.Product6;
 import com.example.myapplication.model.lab6.ProductType6;
-import com.example.myapplication.views.Lab7Activity;
 
 import java.util.ArrayList;
 import java.util.Collections;
