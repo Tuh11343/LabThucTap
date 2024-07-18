@@ -89,7 +89,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA1NksYya3S0kRx4p73OtYwn0SikZqm9Hk" />
+            android:value="${GMP_KEY}" />
 
     </application>
 

@@ -36,7 +36,7 @@ class LocationService : Service() {
     private lateinit var runnable: Runnable
 
     companion object {
-        var isRunning=false
+        var isRunning = false
         private const val NOTIFICATION_ID = 12345
         private const val CHANNEL_ID = "GoogleMapChannel"
 
@@ -65,7 +65,7 @@ class LocationService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.i("DEBUG", "Location Service hoạt động")
-        isRunning=true
+        isRunning = true
         startForeground(NOTIFICATION_ID, createNotification())
         requestLocationUpdates()
         return START_NOT_STICKY
@@ -86,6 +86,12 @@ class LocationService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
+    }
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        onDestroyHandle()
+        stopSelf()
+        super.onTaskRemoved(rootIntent)
     }
 
     /*--------------------------- Phần này xử lý tạo thông báo -----------------------------------*/
@@ -121,14 +127,14 @@ class LocationService : Service() {
         runnable = object : Runnable {
             override fun run() {
                 if (checkPermission()) {
-                    if(isLocationEnabled()){
+                    if (isLocationEnabled()) {
                         fusedLocationClient.requestLocationUpdates(
                             locationRequest,
                             locationCallback,
                             null,
                         )
-                    }else{
-                        Log.i("DEBUG","Vị trí không được bật vui lòng kiểm tra")
+                    } else {
+                        Log.i("DEBUG", "Vị trí không được bật vui lòng kiểm tra")
                     }
                     Log.i("DEBUG", "Cap nhat moi 30s")
                     handler.postDelayed(this, 30000)
@@ -142,7 +148,10 @@ class LocationService : Service() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.lastLocation?.let { location ->
 
-                    Log.i("DEBUG", "Vi tri trong receiver: ${location.latitude}, ${location.longitude}")
+                    Log.i(
+                        "DEBUG",
+                        "Vi tri trong receiver: ${location.latitude}, ${location.longitude}"
+                    )
 
                     //Gửi dữ liệu lên cho activity
                     val intent = Intent("LOCATION_UPDATE")
@@ -193,7 +202,9 @@ class LocationService : Service() {
 
     private fun isLocationEnabled(): Boolean {
         val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
     }
 
     /*//Hàm này dùng để kiểm tra xem có bật GPS chưa nếu chưa yêu cầu bật
@@ -263,7 +274,7 @@ class LocationService : Service() {
 
                     override fun onError(errorMessage: String?) {
                         super.onError(errorMessage)
-                        Log.i("DEBUG","Loi geoCoder listener:$errorMessage")
+                        Log.i("DEBUG", "Loi geoCoder listener:$errorMessage")
                     }
                 })
             } else {

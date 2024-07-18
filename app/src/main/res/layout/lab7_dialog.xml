@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thông tin chi tiết"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Địa chỉ:"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:textStyle="normal"
+            android:maxLines="2"
+            />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="207/47"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:textStyle="normal"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="4"
+            android:layout_marginLeft="10dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tọa độ:"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:textStyle="normal"
+            android:maxLines="2"
+            />
+
+        <TextView
+            android:id="@+id/latLNG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="10,11"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:textStyle="normal"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:layout_marginLeft="10dp"
+            />
+
+    </LinearLayout>
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        >-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Thành phố:"-->
+<!--            android:textSize="18dp"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textStyle="normal"-->
+<!--            android:maxLines="2"-->
+<!--            />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="TP.HCM"-->
+<!--            android:textSize="18dp"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textStyle="normal"-->
+<!--            android:layout_weight="1"-->
+<!--            android:ellipsize="end"-->
+<!--            android:maxLines="2"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            />-->
+
+<!--    </LinearLayout>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xác nhận"
+            android:textStyle="normal"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:backgroundTint="@color/green"
+            android:layout_centerHorizontal="true"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
