@@ -43,6 +43,10 @@ class MainActivity : ComponentActivity() {
             startActivity(Intent(this,Lab7Activity::class.java))
         }
 
+        binding.btnLab8.setOnClickListener{
+            startActivity(Intent(this,Lab8Activity::class.java))
+        }
+
     }
 
 
